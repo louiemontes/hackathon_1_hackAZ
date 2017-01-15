@@ -64,20 +64,11 @@ board.on("ready", function() {
   inputText = "love";
   sentimentScore = sentiment(inputText).score;
 
-  // var led = new five.Led(13);
-
-  // this.repl.inject({
-  //   led: led,
-  //   board: board,
-  //   io: board.io
-  // });
-
   alphanum4 = new nodeled.AlphaNum4(board, {address: 0x74});
   matrix = new nodeled.Matrix8x8(board, {address: 0x73});
   bargraph = new nodeled.Bargraph24(board, {address: 0x70});
   sevensegment = new nodeled.SevenSegment(board, {address: 0x71});
 
-  // global.alphanum4 = alphanum4;
   alphanum4.writeText(inputText);
 
   if (sentimentScore > 0) {
@@ -92,5 +83,43 @@ board.on("ready", function() {
   }
 
 
+  var go = true;
+  var counter = 0;
+  function startTimer(counter){
+    if(go){
+      setTimeout(function(){
+        counter++;
+        startTimer(counter);
+        sevensegment.writeText(counter);
+      }, 1000);
+    }
+  }
+  startTimer(go);
+
+  // var currentWord;
+  // var endChar;
+  // var beginChar;
+  // function textWrap(text){
+  //   if(go){
+  //     setTimeout(function(){
+  //       text = _.padEnd(text, 12);
+  //       text = _.concat(text);
+  //       currentWord = text;
+  //       endChar = _.slice(currentWord, 0, 1);
+  //       beginChar = _.slice(currentWord, 1, 1000);
+  //       currentWord = _.concat(beginChar, endChar);
+  //       currentWord = _.join(currentWord);
+  //       text = currentWord;
+  //       text = _.slice(currentWord, 9, 13);
+  //       text = _.join(text); 
+  //       alphanum4.writeText(text);
+  //       // console.log(counter);
+  //       textWrap(text);
+
+  //       sevensegment.writeText(text);
+  //     }, 1000);
+  //   }
+  // }
+  // textWrap(inputText);
 
 });
